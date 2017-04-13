@@ -85,7 +85,6 @@ app.use(expressValidator({
   }
 }));
 
-app.use(history());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -96,6 +95,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
 app.use('/users', users);
+
+app.use(history());
 
 // setup HTML5 History Mode for SPAs
 
