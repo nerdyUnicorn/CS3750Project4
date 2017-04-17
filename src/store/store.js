@@ -51,9 +51,7 @@ export default new Vuex.Store({
     },
     // async modificaiton of global state
     actions: {
-        loadData: ({
-            commit
-        }) => {
+        loadData: ({ commit }) => {
             Vue.http.get('data.json')
                 .then(response => response.json())
                 .then(data => {

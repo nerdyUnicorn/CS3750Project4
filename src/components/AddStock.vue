@@ -11,17 +11,19 @@
         <br>
         <br>
         <hr>
-        <div v-if="selectedStocks.length > 0">
-            <h4>Newly Added Stocks <span class="badge">{{selectedStocks.length}}</span></h4>
-            <ul class="list-group">
-                <transition-group name="slide" mode="out-in">
-                <li
-                    class="list-group-item"
-                    :key="stock"
-                    v-for="(stock, i) in selectedStocks"><span class="badge">{{stock}}</span>{{ getCompany(stock) }}</li>
-                </transition-group>
-            </ul>
-        </div>
+        <transition name="fade" mode="out-in">
+            <div v-if="selectedStocks.length > 0">
+                <h4>Newly Added Stocks <span class="badge">{{selectedStocks.length}}</span></h4>
+                <ul class="list-group">
+                    <transition-group name="slide" mode="out-in">
+                    <li
+                        class="list-group-item"
+                        :key="stock"
+                        v-for="(stock, i) in selectedStocks"><span class="badge">{{stock}}</span>{{ getCompany(stock) }}</li>
+                    </transition-group>
+                </ul>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -55,6 +57,19 @@
 </script>
 
 <style scoped>
+    
+    .fade-enter {
+        opacity: 0;
+    }
+
+    .fade-enter-active {
+        transition: opacity 1s;
+    }
+
+    .fade-leave-active {
+        transition: opacity 1s;
+        opacity: 0;
+    }
 
     .slide-enter {
         opacity: 0;

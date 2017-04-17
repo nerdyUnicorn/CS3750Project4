@@ -2,13 +2,14 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <router-link to="/" class="navbar-brand">Stock Trader</router-link>
+        <router-link to="/" class="navbar-brand">Project 4 Stock Ticker</router-link>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <router-link to="/portfolio" activeClass="active" tag="li"><a>Portfolio</a></router-link>
-          <router-link to="/stocks" activeClass="active" tag="li"><a>Stocks</a></router-link>
+          <router-link to="/stocks" activeClass="active" tag="li"><a>Stocks List</a></router-link>
+          <router-link to="/add" activeClass="active" tag="li"><a>Add Stocks</a></router-link>
+          <router-link to="/manage" activeClass="active" tag="li"><a>Manage Allocations</a></router-link>
         </ul>
         <strong class="navbar-text navbar-right">Funds: {{ funds | currency }}</strong>
         <ul class="nav navbar-nav navbar-right">
