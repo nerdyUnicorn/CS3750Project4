@@ -1,6 +1,7 @@
 <template>
     <div>
         <h3>Stock List</h3>
+        <p>stocks: {{ stocks }}</p>
     </div>
 </template>
 
@@ -11,7 +12,10 @@
             return {
             }
         },
-        methods: {
+        computed: {
+            stocks() {
+               return this.$store.getters.stocks;
+           }
         },
         components: {
         
