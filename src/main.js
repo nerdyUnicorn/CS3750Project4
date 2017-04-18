@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+import Toast from 'vue-easy-toast';
 
 import App from './App.vue'
 import { routes } from './routes';
@@ -8,7 +9,7 @@ import store from './store/store';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
-
+Vue.use(Toast);
 
 Vue.filter('currency', (value) => {
   return '$' + value.toLocaleString();
