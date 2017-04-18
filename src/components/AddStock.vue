@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Add Stock</h3>
+        <h3>Add Stocks</h3>
         <typeahead
             :data="stockSymbols"
             :match-start="matchStart"

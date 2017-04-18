@@ -1,11 +1,13 @@
 import Home from './components/Home.vue';
-import Portfolio from './components/portfolio/Portfolio.vue';
-import Stocks from './components/stocks/Stocks.vue';
 import AddStock from './components/AddStock.vue';
+import ManageStocks from './components/ManageStocks.vue';
+import StockView from './components/StockView.vue';
+import StockList from './components/StockList.vue';
 
 export const routes = [
     { path: '/', component: Home },
-    { path: '/portfolio', component: Portfolio },
-    { path: '/stocks', component: Stocks },
-    { path: '/add', component: AddStock },
+    { path: '/stocklist', component: StockList },
+    { path: '/addstocks', component: AddStock },
+    { path: '/managestocks', component: ManageStocks },
+    { path: '/stockview', component: StockView },
 ];
