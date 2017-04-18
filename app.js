@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 //const history = require('vue-history-api-fallback');
 //const historyOptions = require('./src/main.js');
-var history = require('connect-history-api-fallback');
+//var history = require('connect-history-api-fallback');
+const fallback = require('express-history-api-fallback');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
@@ -17,6 +18,7 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 
 var app = express();
+
 
 // mongoose setup
 mongoose.Promise = global.Promise;
@@ -91,34 +93,13 @@ app.use(expressValidator({
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use(history({historyOptions}));
-
 app.use('/api', api);
 app.use('/users', users);
 
-app.use(history());
-
 // setup HTML5 History Mode for SPAs
+const root = (path.join(__dirname, 'public'));
+app.use(fallback('index.html', { root: root }))
 
-/*
-const VueRouter = requre('vue-router');
-let router = new VueRouter({
-  mode: 'history',
-  routes: [
-    { path: '/', component: Home },
-    { path: '/portfolio', component: Portfolio },
-    { path: '/stocks', component: Stocks },
-  ]
-});
-*/
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
 
 // error handler
 app.use(function(err, req, res, next) {
