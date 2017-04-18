@@ -1,12 +1,7 @@
 <template>
     <div>
         <h3>Add Stocks</h3>
-        <typeahead
-            :data="stockSymbols"
-            :match-start="matchStart"
-            :template="customTemplate"
-            :on-hit="recordSelection"
-            placeholder="Enter Stock Symbol">
+        <typeahead :data="stockSymbols" :match-start="matchStart" :template="customTemplate" :on-hit="recordSelection" placeholder="Enter Stock Symbol">
         </typeahead>
         <br>
         <br>
@@ -16,10 +11,7 @@
                 <h4>Newly Added Stocks <span class="badge">{{selectedStocks.length}}</span></h4>
                 <ul class="list-group">
                     <transition-group name="slide" mode="out-in">
-                    <li
-                        class="list-group-item"
-                        :key="stock"
-                        v-for="(stock, i) in selectedStocks"><span class="badge">{{stock}}</span>{{ getCompany(stock) }}</li>
+                        <li class="list-group-item" :key="stock" v-for="(stock, i) in selectedStocks"><span class="badge">{{stock}}</span>{{ getCompany(stock) }}</li>
                     </transition-group>
                 </ul>
             </div>
@@ -28,8 +20,10 @@
 </template>
 
 <script>
-    import { allStocks } from '../data/allstocks';
-    import typeahead  from './Typeahead.vue'; // customized local copy to show symbol and company name
+    import {
+        allStocks
+    } from '../data/allstocks';
+    import typeahead from './Typeahead.vue'; // customized local copy to show symbol and company name
 
     export default {
         data() {
@@ -42,9 +36,12 @@
         },
         methods: {
             recordSelection(item) {
-                if (this.selectedStocks.indexOf(item) === -1) {
+                // update this page
+                if (this.$store.getters.stocks.indexOf(item) === -1) {
                     this.selectedStocks.push(item);
                 }
+                //update global store
+                this.$store.dispatch('addStock', item);
             },
             getCompany(symbol) {
                 return allStocks.get(symbol);
@@ -57,7 +54,6 @@
 </script>
 
 <style scoped>
-    
     .fade-enter {
         opacity: 0;
     }
