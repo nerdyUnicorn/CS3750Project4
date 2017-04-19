@@ -3,7 +3,8 @@
         <h3>Manage Stocks</h3>
         <button v-on:click="addStock">add stock</button>
         <div id="remainingPercentOuter">
-            <div id="remainingPercentInner"></div>
+            <div id="remainingPercentInner"
+                 v-bind:style="barStyle"></div>
         </div>
         <div id="stockWindow">
             <table>
@@ -31,6 +32,11 @@
 export default {
     data() {
         return {
+            barStyle: {
+                backgroundColor: '#f0f',
+                width: '100%',
+                height: '100%'
+            },
             items: [
                 { stock: 'stock1' },
                 { stock: 'stock2' },
@@ -48,13 +54,12 @@ export default {
             [].forEach.call(stocks, function (st) {
                 stockTotal += parseInt(st.value);
             });
-            var remainingBar = document.getElementById('remainingPercentInner');
             var range = event.target;
             if (stockTotal > 100) {
                 range.value -= stockTotal - 100;
                 stockTotal = 100;
             }
-            remainingBar.style.width = '' + (100 - stockTotal) + '%';
+            this.$data.barStyle.width = (100 - stockTotal) + '%';
         }
     },
     components: {
@@ -79,12 +84,6 @@ td.slider-container {
 div#remainingPercentOuter {
     border: solid 1px #000;
     height: 20px;
-}
-
-div#remainingPercentInner {
-    width: 50%;
-    height: 100%;
-    background-color: #f0f;
 }
 
 input[type=range] {
