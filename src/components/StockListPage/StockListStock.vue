@@ -5,8 +5,9 @@
                 <h3 class="panel-title">{{stock.symbol}}  <small>{{stock.name}}</small></h3>
             </div>
             <div class="panel-body">
-                <div class="pull-left">
+                <div class="pull-left text-center">
                     <span class="glyphicon" v-bind:class="{'glyphicon-chevron-up': trendUp, 'text-success': trendUp, 'glyphicon-chevron-down': trendDown, 'text-danger': trendDown, 'glyphicon-retweet': trendEq}" aria-hidden="true"></span>
+                    <p class="stockchange">{{stock.change}}</p>
                 </div>
                 <div class="stockprice text-center">{{stock.price}}</div>
                 </div>
@@ -76,5 +77,8 @@
     }
     .stockprice {
         font-size: 3.2em;
+    }
+    .stockchange {
+        font-size: 1.2em;
     }
 </style>
