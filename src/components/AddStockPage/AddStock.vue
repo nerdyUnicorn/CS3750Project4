@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import {allStocks} from '../data/allstocks';
+    import {allStocks} from '../../data/allstocks';
     import typeahead from './Typeahead.vue'; // customized local copy to show symbol and company name
 
     export default {
