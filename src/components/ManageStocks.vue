@@ -12,13 +12,22 @@
                     <tr>
                         <td>{{item.stock}}</td>
                         <td class="slider-container">
-                            <input class="stock-alloc"
-                                   value="0"
+                            <input type="range"
+                                   class="stock-alloc"
+                                   v-model="item.val"
                                    min="0"
                                    max="100"
-                                   type="range"
-                                   v-on:change="limitRange"
-                                   v-on:input="limitRange" />
+                                   v-on:change="limitRange($event, item)"
+                                   v-on:input="limitRange($event, item)" />
+                        </td>
+                        <td>
+                            <input type="number"
+                                   class="stock-num-box"
+                                   v-model="item.val"
+                                   min="0"
+                                   max="100"
+                                   v-on:change="limitRange($event, item)"
+                                   v-on:input="limitRange($event, item)" />
                         </td>
                     </tr>
                 </template>
@@ -38,25 +47,26 @@ export default {
                 height: '100%'
             },
             items: [
-                { stock: 'stock1' },
-                { stock: 'stock2' },
-                { stock: 'stock3' }
+                { stock: 'stock1', val: 0 },
+                { stock: 'stock2', val: 0 },
+                { stock: 'stock3', val: 0 }
             ]
         }
     },
     methods: {
         addStock: function () {
-            this.$data.items.push({ stock: 'stock' + (this.$data.items.length + 1) });
+            this.$data.items.push({ stock: 'stock' + (this.$data.items.length + 1), val: 0 });
         },
-        limitRange: function (event) {
+        limitRange: function (event, item) {
             var stocks = document.getElementsByClassName('stock-alloc');
             var stockTotal = 0;
             [].forEach.call(stocks, function (st) {
                 stockTotal += parseInt(st.value);
             });
-            var range = event.target;
             if (stockTotal > 100) {
-                range.value -= stockTotal - 100;
+                item.val -= stockTotal - 100;
+                item.val = Math.max(0, Math.min(item.val, 100));
+                event.target.value -= stockTotal - 100;
                 stockTotal = 100;
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
@@ -68,6 +78,10 @@ export default {
 </script>
 
 <style>
+input.stock-num-box {
+    width: 60px;
+}
+
 #stockWindow {
     max-height: 50vh;
     overflow-y: scroll;
