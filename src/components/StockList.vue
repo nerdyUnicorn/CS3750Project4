@@ -1,24 +1,35 @@
 <template>
     <div>
-        <h3>Stock List</h3>
-        <p>stocks: {{ stocks }}</p>
+        <app-stock v-for="stock in stockquotes" :stock="stock"></app-stock>
     </div>
 </template>
 
 <script>
 
+    import Stock from './StockListStock.vue';
+
     export default {
-        data() {
-            return {
-            }
-        },
         computed: {
             stocks() {
                return this.$store.getters.stocks;
+           },
+           stockquotes() {
+
+               let tmpObj = {};
+
+               for (let i in this.stocks) {
+                   tmpObj[i] = {
+                       symbol: this.stocks[i],
+                       name: '',
+                       change: '',
+                       LastPrice: ''
+                   }
+               }
+               return tmpObj;
            }
         },
         components: {
-        
+            appStock: Stock
         }
     }
 </script>
