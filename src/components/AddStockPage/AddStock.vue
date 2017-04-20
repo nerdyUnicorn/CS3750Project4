@@ -38,7 +38,7 @@
                 if (this.$store.getters.stocks.indexOf(item) === -1) {
                     this.selectedStocks.push(item);
                 } else {
-                    this.$toast('Stock already tracked', {className: ['btn', 'btn-danger']})
+                    this.$toast('Stock already tracked', {className: ['btn', 'btn-danger']});
                 }
                 //update global store
                 this.$store.dispatch('addStock', item);
