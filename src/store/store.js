@@ -8,7 +8,6 @@ export default new Vuex.Store({
 
     // global state available throughout application
     state: {
-        stocks: [],
         allocations: [],
         funds: 10000
     },
@@ -60,7 +59,11 @@ export default new Vuex.Store({
             return state.funds;
         },
         stocks: state => { // using new style javascript syntax
-            return state.stocks;
+            let stocks = [];
+            for (let i in state.allocations) {
+                stocks.push(state.allocations[i].symbol);
+            }
+            return stocks;
         }
     }
 });
