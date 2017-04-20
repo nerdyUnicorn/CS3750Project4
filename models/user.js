@@ -53,3 +53,21 @@ module.exports.comparePassword = function (candidatePassword, hash, callback) {
         callback(null, isMatch);
     });
 }
+
+module.exports.addStock = function (username, stock, callback){
+    const query = {
+        username: username
+    };
+    User.findOne(query, function(err, user){
+        if (err) throw err;
+
+        User.findByIdAndUpdate(
+            user.username,
+            {$push: {"portfolio": {symbol: stock, percent: 0}}},
+            {safe: true, upsert: true},
+            function(err, model) {
+                console.log(err);
+            }
+        )
+    });
+}
