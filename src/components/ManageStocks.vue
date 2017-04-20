@@ -77,7 +77,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 input.stock-num-box {
     width: 60px;
 }
