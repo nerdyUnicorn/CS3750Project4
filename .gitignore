@@ -1,3 +1,6 @@
+# environment file for sensitive data like APIKEYS
+.env
+
 # Logs
 logs
 *.log

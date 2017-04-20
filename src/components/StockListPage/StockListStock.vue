@@ -9,7 +9,7 @@
                     <span class="glyphicon" v-bind:class="{'glyphicon-chevron-up': trendUp, 'text-success': trendUp, 'glyphicon-chevron-down': trendDown, 'text-danger': trendDown, 'glyphicon-retweet': trendEq}" aria-hidden="true"></span>
                     <p class="stockchange">{{stock.change}}</p>
                 </div>
-                <div class="stockprice text-center">{{stock.price}}</div>
+                <div class="stockprice text-center">{{stock.currprice}}</div>
                 </div>
                 <div class="panel-footer clearfix">
                 <div class="pull-right">
@@ -38,14 +38,14 @@
                 this.$store.dispatch('delStock', this.stock.symbol);
             },
             getStockData() {
-            this.$http.jsonp('http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=' + this.stock.symbol)
+            this.$http.get('http://localhost:3000/proxyapi/stock/' + this.stock.symbol)
                 .then(response => response.json())
                 .then(data => {
                     if (data) {
 
-                        this.stock.name = data.Name;
-                        this.stock.change = data.Change;
-                        this.stock.price = data.LastPrice;
+                        this.stock.name = data.name;
+                        this.stock.change = data.change;
+                        this.stock.currprice = data.currprice;
 
                         if (this.stock.change > 0) {
                             this.trendUp = true;
@@ -66,6 +66,7 @@
             }
         },
         created() {
+            this.$toast('Loading Real Time Data...', {className: ['btn', 'btn-success']});
             this.getStockData();
         }
     }
