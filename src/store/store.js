@@ -16,9 +16,11 @@ export default new Vuex.Store({
     mutations: {
         maddStock(state, stock) {
 
-            // return if stock is already in state.stocks
-            if (state.stocks.indexOf(stock) > -1) {
-                return;
+            // return if stock is already being tracked
+            for (let i in state.allocations) {
+                if (state.allocations[i].symbol == stock) {
+                    return;
+                }
             }
 
             let newStock = {
@@ -26,7 +28,6 @@ export default new Vuex.Store({
                 percent: 0
             }
 
-            state.stocks.push(stock);
             state.allocations.push(newStock);
         },
         mdelStock(state, stock) {
