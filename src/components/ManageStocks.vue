@@ -1,20 +1,19 @@
 <template>
     <div>
         <h3>Manage Stocks</h3>
-        <button v-on:click="addStock">add stock</button>
         <div id="remainingPercentOuter">
             <div id="remainingPercentInner"
                  v-bind:style="barStyle"></div>
         </div>
         <div id="stockWindow">
             <table>
-                <template v-for="item in items">
+                <template v-for="item in this.$store.getters.allocations">
                     <tr>
-                        <td>{{item.stock}}</td>
+                        <td>{{item.symbol}}</td>
                         <td class="slider-container">
                             <input type="range"
                                    class="stock-alloc"
-                                   v-model="item.val"
+                                   v-model="item.percent"
                                    min="0"
                                    max="100"
                                    v-on:change="limitRange($event, item)"
@@ -23,7 +22,7 @@
                         <td>
                             <input type="number"
                                    class="stock-num-box"
-                                   v-model="item.val"
+                                   v-model="item.percent"
                                    min="0"
                                    max="100"
                                    v-on:change="limitRange($event, item)"
@@ -43,20 +42,12 @@ export default {
         return {
             barStyle: {
                 backgroundColor: '#f0f',
-                width: '100%',
+                width: () => 60 + '%',
                 height: '100%'
-            },
-            items: [
-                { stock: 'stock1', val: 0 },
-                { stock: 'stock2', val: 0 },
-                { stock: 'stock3', val: 0 }
-            ]
+            }
         }
     },
     methods: {
-        addStock: function () {
-            this.$data.items.push({ stock: 'stock' + (this.$data.items.length + 1), val: 0 });
-        },
         limitRange: function (event, item) {
             var stocks = document.getElementsByClassName('stock-alloc');
             var stockTotal = 0;
@@ -64,12 +55,12 @@ export default {
                 stockTotal += parseInt(st.value);
             });
             if (stockTotal > 100) {
-                item.val -= stockTotal - 100;
-                item.val = Math.max(0, Math.min(item.val, 100));
+                item.percent -= stockTotal - 100;
+                item.percent = Math.max(0, Math.min(item.percent, 100));
                 event.target.value -= stockTotal - 100;
                 stockTotal = 100;
             }
-            this.$data.barStyle.width = (100 - stockTotal) + '%';
+            //this.$data.barStyle.width = (100 - stockTotal) + '%';
         }
     },
     components: {
