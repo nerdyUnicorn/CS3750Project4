@@ -12,6 +12,12 @@
                 <div class="stockprice text-center">{{currprice}}</div>
                 </div>
                 <div class="panel-footer clearfix">
+                <div class="pull-left">
+                    <button
+                        class="btn btn-info"
+                        @click="refreshStock"
+                        >Refresh</button>
+                </div>
                 <div class="pull-right">
                     <button
                         class="btn btn-danger"
@@ -40,7 +46,10 @@
             deleteStock() {
                 this.$store.dispatch('delStock', this.stock.symbol);
             },
-            getStockData() {
+            refreshStock() {
+                this.getStockData(true);
+            },
+            getStockData(norefresh) {
             this.$http.get('http://localhost:3000/proxyapi/stock/' + this.stock.symbol)
                 .then(response => response.json())
                 .then(data => {
@@ -63,7 +72,9 @@
                         }
 
                         // get new stock data every 10 mins
-                        setTimeout(this.getStockData, 600000);
+                        if(!norefresh) {
+                            setTimeout(this.getStockData, 600000);
+                        }
                     }
                 });            
             }
