@@ -66,10 +66,10 @@ router.get('/stock/:stock_id', function(req, res, next) {
  
     Promise.all([alphaVantage, yahoo])
     .then(([alphaData, yahooData]) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
         const value = Object.assign({currprice: null, name: null, lastclose: null, change: null}, alphaData, yahooData);
         value.change = ParseToDecimalPlaces(alphaData.currprice - yahooData.lastclose, 2);
         console.log(JSON.stringify(value));
-        res.setHeader('Access-Control-Allow-Origin', '*');
         return res.json(value);
     })
     .catch(err => next(err));

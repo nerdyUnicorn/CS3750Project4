@@ -62,8 +62,8 @@
                             this.trendEq = true;
                         }
 
-                        // get new stock data every 60 seconds
-                        setTimeout(this.getStockData, 60000);
+                        // get new stock data every 10 mins
+                        setTimeout(this.getStockData, 600000);
                     }
                 });            
             }
