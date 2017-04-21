@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const fetch = require('isomorphic-fetch');
-const fetchJsonp = require('fetch-jsonp');
 
 // Object.entries shim
 const entries = require('object.entries');
@@ -48,19 +47,27 @@ router.get('/stock/:stock_id', function(req, res, next) {
             return mapped;
         });
     
-    const markItOnDemand = fetch(`http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=${req.params.stock_id}`, { headers, method: 'GET' })
-        .then(response => response.json())
-        .then(json => {
-            return ['Name', 'LastPrice'].reduce((map, key) => {
-                map[key] = json[key];
-                return map;
-            }, Object.create(null));
+    const yahoo = fetch(`https://chartapi.finance.yahoo.com/instrument/2.0/${req.params.stock_id}/chartdata;type=quote;range=1d/csv`, { headers, method: 'GET'})
+        .then(response => response.text())
+        .then(txt => {
+            const mapped = Object.create(null);
+            const errorRE = new RegExp(/errorid:/);
+            if (! errorRE.exec(txt)) { // check for error
+                const nameRE = new RegExp(/Company-Name:(.*)/);
+                const lastcloseRE = new RegExp(/previous_close:(.*)/);
+                mapped.name = nameRE.exec(txt)[1];
+                mapped.lastclose = ParseToDecimalPlaces(lastcloseRE.exec(txt)[1], 2);
+            } else {
+                mapped.name = null;
+                mapped.lastclose = null;
+            }
+            return mapped;
         });
  
-    Promise.all([alphaVantage, markItOnDemand])
-    .then(([alphaData, modData]) => {
-        const value = Object.assign({currprice: null, Name: null, LastPrice: null, change: null}, alphaData, modData);
-        value.change = ParseToDecimalPlaces(alphaData.currprice - modData.LastPrice, 2);
+    Promise.all([alphaVantage, yahoo])
+    .then(([alphaData, yahooData]) => {
+        const value = Object.assign({currprice: null, name: null, lastclose: null, change: null}, alphaData, yahooData);
+        value.change = ParseToDecimalPlaces(alphaData.currprice - yahooData.lastclose, 2);
         console.log(JSON.stringify(value));
         res.setHeader('Access-Control-Allow-Origin', '*');
         return res.json(value);
