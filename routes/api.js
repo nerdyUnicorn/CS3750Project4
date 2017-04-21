@@ -13,10 +13,9 @@ router.get('/test', function(req, res) {
 });
 
 router.post('/addstocks', function(req, res){
-    var username = req.user;
-    var stock = req.body.item;
-    console.log(username);
-    console.log(stock);
+    var username = req.user.username;
+    var stock = req.body.stock;
+        
     User.addStock(username, stock, (err, user) => {
         if (err) throw err;
         res.status(200).send();

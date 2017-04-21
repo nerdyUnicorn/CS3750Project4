@@ -37,7 +37,9 @@
                 // update this page
                 if (this.$store.getters.stocks.indexOf(item) === -1) {
                     this.selectedStocks.push(item);
-                    this.$http.post('/addstocks', {user: this.username, stock: this.item}).then(successCallback, errorCallback);
+                    this.$http.post('http://localhost:3000/api/addstocks', {stock: item}).then(
+                        function(response) {console.log('success',response)}, 
+                        function(response){console.log('error',response)});
                 } else {
                     this.$toast('Stock already tracked', {className: ['btn', 'btn-danger']})
                 }
