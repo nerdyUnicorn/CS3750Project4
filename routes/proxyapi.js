@@ -74,6 +74,53 @@ router.get('/stock/:stock_id', function(req, res, next) {
     })
     .catch(err => next(err));
 });
+
+router.get('/stockhistory/:stock_id', function(req, res, next) {
+
+   // setup the outbound header by using a modified version
+   // of the incoming request headers
+    delete req.headers.host;
+    const headers = new Headers();
+    for(let [key, value] of Object.entries(req.headers)) {
+        if(key !== 'cookie')
+            headers.append(key, value);
+    }
+    headers.append('accept-encoding', 'gzip;q=0,deflate,sdch');
+
+    const alphaVantageHourly = fetch(`http://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.stock_id}&interval=60min&outputsize=full&apikey=${process.env.AVAPIKEY}`, { headers, method: 'GET' })
+        .then(response => response.json())
+        .then(json => {
+            const stockdata = [];
+            if(json['Meta Data']) {
+                for (let key of Object.keys(json['Time Series (60min)'])) {
+                    stockdata.push([new Date(key).getTime(), ParseToDecimalPlaces(json['Time Series (60min)'][key]['4. close'], 2)]);
+                }
+            }
+            return stockdata;
+        });
+
+    const alphaVantageDaily = fetch(`http://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${req.params.stock_id}&outputsize=compact&apikey=${process.env.AVAPIKEY}`, { headers, method: 'GET' })
+        .then(response => response.json())
+        .then(json => {
+            const stockdata = [];
+            if(json['Meta Data']) {
+                for (let key of Object.keys(json['Time Series (Daily)'])) {
+                    stockdata.push([new Date(key).getTime(), ParseToDecimalPlaces(json['Time Series (Daily)'][key]['4. close'], 2)]);
+                }
+            }
+            return stockdata;
+        });
+
+    Promise.all([alphaVantageHourly, alphaVantageDaily])
+    .then(([alphaHourly,alphaDaily]) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        const combined = alphaHourly.concat(alphaDaily);
+        // sort by date
+        combined.sort(function(a, b) { return (a[0] < b[0] ? -1 : (a[0] > b[0] ? 1 : 0)); });
+        return res.json(combined);
+    })
+    .catch(err => next(err));
+});
  
 function ParseToDecimalPlaces(value, numPlaces) {
     const radix = 10 * numPlaces;
