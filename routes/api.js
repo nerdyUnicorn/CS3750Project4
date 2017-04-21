@@ -9,7 +9,12 @@ let User = require('../models/user');
 // test API
 //router.get('/test', ensureAuthenticated, function(req, res) {
 router.get('/test', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+    User.getStocks('bob', (err, user) => {
+        if (err) throw err;
+        res.json(user);
+    })
+
+    //res.json({ message: 'hooray! welcome to our api!' });   
 });
 
 router.post('/addstocks', function(req, res){

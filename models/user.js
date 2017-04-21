@@ -62,3 +62,7 @@ module.exports.addStock = function (username, stock, callback){
     User.findOneAndUpdate(query, {$push: {portfolio: {symbol: stock, percent: 0}}}, {safe: true, upsert:true}, callback);
 
 };
+
+module.exports.getStocks = function (username, callback){
+    User.find({username: username}, 'portfolio.symbol -_id', callback);
+}
