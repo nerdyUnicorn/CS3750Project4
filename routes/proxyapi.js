@@ -13,9 +13,6 @@ const ensureAuthenticated = require('../lib/auth').ensureAuthenticated;
 const passport = require('../lib/auth').passport;
 let User = require('../models/user');
 
-const http = require('http');
-const https = require('https');
-
 // get AVAPIKEY from /.env
 const dotenv = require('dotenv').config();
 console.log('dotenv AVAPIKEY: ' + process.env.AVAPIKEY);
