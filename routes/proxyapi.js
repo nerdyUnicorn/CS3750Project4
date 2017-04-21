@@ -15,7 +15,7 @@ let User = require('../models/user');
 
 // get AVAPIKEY from /.env
 const dotenv = require('dotenv').config();
-console.log('dotenv AVAPIKEY: ' + process.env.AVAPIKEY);
+// console.log('dotenv AVAPIKEY: ' + process.env.AVAPIKEY);
 
 // test API
 router.get('/test', function(req, res) {
