@@ -22,7 +22,6 @@
                        symbol: this.stocks[i],
                        name: '',
                        change: '',
-                       LastPrice: ''
                    }
                }
                return tmpObj;

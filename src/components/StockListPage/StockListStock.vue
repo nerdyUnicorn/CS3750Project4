@@ -43,7 +43,7 @@
                 .then(data => {
                     if (data) {
 
-                        this.stock.name = data.name;
+                        this.stock.name = data.Name;
                         this.stock.change = data.change;
                         this.stock.currprice = data.currprice;
 
