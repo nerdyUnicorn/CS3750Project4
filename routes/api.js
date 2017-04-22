@@ -17,7 +17,7 @@ router.get('/test', function(req, res) {
     //res.json({ message: 'hooray! welcome to our api!' });   
 });
 
-router.post('/addstocks', ensureAuthenticated, function(req, res){
+router.post('/addstocks', function(req, res){
     var username = req.user.username;
     var stock = req.body.stock;
         
