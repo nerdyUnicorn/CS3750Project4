@@ -63,6 +63,10 @@ module.exports.addStock = function (username, stock, callback){
 
 };
 
-module.exports.getStocks = function (username, callback){
-    User.find({username: username}, 'portfolio.symbol -_id', callback);
-}
+module.exports.getStocksAndPercent = function (username, callback){
+    User.find({username: username}, '-_id portfolio.symbol portfolio.percent', callback);
+};
+
+module.exports.getStocks = function (username, callback) {
+    User.find( {username: username}, '-id portfolio.symbol', callback);
+};
