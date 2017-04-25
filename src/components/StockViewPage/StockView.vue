@@ -1,24 +1,21 @@
 <template>
     <div>
-        <h3>Stock List</h3>
-        <p>stocks: {{ stocks }}</p>
+        <app-chart v-for="stock in stocks" :stock="stock"></app-chart>
     </div>
 </template>
 
 <script>
 
+    import HighStock from './HighStock.vue';
+
     export default {
-        data() {
-            return {
-            }
-        },
         computed: {
             stocks() {
                return this.$store.getters.stocks;
-           }
+           },
         },
         components: {
-        
+            appChart: HighStock
         }
     }
 </script>

@@ -1,8 +1,8 @@
 import Home from './components/Home.vue';
-import AddStock from './components/AddStock.vue';
-import ManageStocks from './components/ManageStocks.vue';
-import StockView from './components/StockView.vue';
-import StockList from './components/StockList.vue';
+import AddStock from './components/AddStockPage/AddStock.vue';
+import ManageStocks from './components/ManageStocksPage/ManageStocks.vue';
+import StockView from './components/StockViewPage/StockView.vue';
+import StockList from './components/StockListPage/StockList.vue';
 
 export const routes = [
     { path: '/', component: Home },

@@ -8,7 +8,6 @@ export default new Vuex.Store({
 
     // global state available throughout application
     state: {
-        stocks: [],
         allocations: [],
         funds: 10000
     },
@@ -17,9 +16,11 @@ export default new Vuex.Store({
     mutations: {
         maddStock(state, stock) {
 
-            // return if stock is already in state.stocks
-            if (state.stocks.indexOf(stock) > -1) {
-                return;
+            // return if stock is already being tracked
+            for (let i in state.allocations) {
+                if (state.allocations[i].symbol == stock) {
+                    return;
+                }
             }
 
             let newStock = {
@@ -27,14 +28,28 @@ export default new Vuex.Store({
                 percent: 0
             }
 
-            state.stocks.push(stock);
             state.allocations.push(newStock);
+        },
+        mdelStock(state, stock) {
+
+            // return if stock is not already in state.stocks
+            if (state.stocks.indexOf(stock) == -1) {
+                return;
+            }
+
+            // TODO
+            // remove stock from stocks and allocations
         }
     },
     // async modificaiton of global state
     actions: {
+        // stock = stock symbol
         addStock: ({commit}, stock) => {
             commit('maddStock', stock);
+        },
+        delStock: ({commit}, stock) => {
+            console.log('delStock called on: ' + stock);
+            commit('mdelStock', stock);
         },
     },
     getters: {
@@ -45,7 +60,11 @@ export default new Vuex.Store({
             return state.funds;
         },
         stocks: state => { // using new style javascript syntax
-            return state.stocks;
+            let stocks = [];
+            for (let i in state.allocations) {
+                stocks.push(state.allocations[i].symbol);
+            }
+            return stocks;
         }
     }
 });
