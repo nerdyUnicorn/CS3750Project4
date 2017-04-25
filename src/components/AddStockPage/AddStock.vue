@@ -41,7 +41,7 @@
                         function(response) {console.log('success', response)}, 
                         function(response) {console.log('error', response)});
                 } else {
-                    this.$toast('Stock already tracked', {className: ['btn', 'btn-danger']})
+                    this.$toast('Stock already tracked', {className: ['btn', 'btn-danger']});
                 }
                 //update global store
                 this.$store.dispatch('addStock', item);

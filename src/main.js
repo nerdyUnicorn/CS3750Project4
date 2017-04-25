@@ -7,9 +7,14 @@ import App from './App.vue'
 import { routes } from './routes';
 import store from './store/store';
 
+// Use HighStock
+import VueHighcharts from 'vue-highcharts';
+import Highcharts from 'highcharts/highstock';
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Toast);
+Vue.use(VueHighcharts, { Highcharts });
 
 Vue.filter('currency', (value) => {
   return '$' + value.toLocaleString();

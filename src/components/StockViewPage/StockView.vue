@@ -1,24 +1,22 @@
 <template>
     <div>
-        <h3>Stock View</h3>
-        <p>Stock Details: {{live.LastPrice}}</p>
+        <app-chart v-for="stock in stocks" :stock="stock"></app-chart>
     </div>
 </template>
 
 <script>
 
+    import HighStock from './HighStock.vue';
+
     export default {
-        data() {
-            return {
-                live: [],
-            }
-        },
-        methods: {
+        computed: {
+            stocks() {
+               return this.$store.getters.stocks;
+           },
         },
         components: {
-        
-        },
-
+            appChart: HighStock
+        }
     }
 </script>
 
