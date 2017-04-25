@@ -1,35 +1,24 @@
 <template>
     <div>
         <h3>Manage Stocks</h3>
-        <div id="remainingPercentOuter">
-            <div id="remainingPercentInner"
-                 v-bind:style="barStyle"></div>
-        </div>
         <div id="stockWindow">
+            <div id="remainingPercentOuter">
+                <div id="remainingPercentInner" v-bind:style="barStyle"></div>
+            </div>
             <table>
-                <template v-for="item in this.$store.getters.allocations">
-                    <tr>
-                        <td>{{item.symbol}}</td>
-                        <td class="slider-container">
-                            <input type="range"
-                                   class="stock-alloc"
-                                   v-model="item.percent"
-                                   min="0"
-                                   max="100"
-                                   v-on:change="limitRange($event, item)"
-                                   v-on:input="limitRange($event, item)" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   class="stock-num-box"
-                                   v-model="item.percent"
-                                   min="0"
-                                   max="100"
-                                   v-on:change="limitRange($event, item)"
-                                   v-on:input="limitRange($event, item)" />
-                        </td>
-                    </tr>
-                </template>
+                <tbody>
+                    <template v-for="item in this.$store.getters.allocations">
+                        <tr>
+                            <td class="symbol-container">{{item.symbol}}</td>
+                            <td class="slider-container">
+                                <input type="range" class="stock-alloc" v-model="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
+                            </td>
+                            <td class="number-container">
+                                <input type="number" class="stock-num-box" v-model="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
             </table>
         </div>
     </div>
@@ -41,7 +30,7 @@ export default {
     data() {
         return {
             barStyle: {
-                backgroundColor: '#f0f',
+                backgroundColor: '#033c73',
                 width: () => 60 + '%',
                 height: '100%'
             }
@@ -60,7 +49,7 @@ export default {
                 event.target.value -= stockTotal - 100;
                 stockTotal = 100;
             }
-            //this.$data.barStyle.width = (100 - stockTotal) + '%';
+            this.$data.barStyle.width = (100 - stockTotal) + '%';
         }
     },
     components: {
@@ -69,11 +58,19 @@ export default {
 </script>
 
 <style scoped>
+#stockWindow {
+    color: #000;
+}
+
 input.stock-num-box {
     width: 60px;
 }
 
-#stockWindow {
+table {
+    width: 100%;
+}
+
+table tbody {
     max-height: 50vh;
     overflow-y: scroll;
 }
@@ -86,15 +83,24 @@ td.slider-container {
     width: 100%;
 }
 
+td.symbol-container {
+    width: 5%;
+}
+
+tr {
+    border: solid 1px #4174a0;
+    background: #c0e1ff;
+}
+
 div#remainingPercentOuter {
     border: solid 1px #000;
-    height: 20px;
+    height: 30px;
 }
 
 input[type=range] {
-    display: inline;
     -webkit-appearance: none;
-    margin: 2px 0;
+    width: 100%;
+    margin: 0px 0;
 }
 
 input[type=range]:focus {
@@ -105,45 +111,45 @@ input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: 20px;
     cursor: pointer;
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
-    background: #79d1eb;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #3071a9;
     border-radius: 1.3px;
     border: 0.2px solid #010101;
 }
 
 input[type=range]::-webkit-slider-thumb {
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
-    border: 1px solid #000000;
-    height: 24px;
-    width: 10px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1.1px solid #000000;
+    height: 20px;
+    width: 16px;
     border-radius: 0px;
-    background: #0771aa;
+    background: #ffffff;
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -2.2px;
+    margin-top: -0.2px;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #98dcf0;
+    background: #5697cf;
 }
 
 input[type=range]::-moz-range-track {
     width: 100%;
     height: 20px;
     cursor: pointer;
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
-    background: #79d1eb;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #3071a9;
     border-radius: 1.3px;
     border: 0.2px solid #010101;
 }
 
 input[type=range]::-moz-range-thumb {
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
-    border: 1px solid #000000;
-    height: 24px;
-    width: 10px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1.1px solid #000000;
+    height: 20px;
+    width: 16px;
     border-radius: 0px;
-    background: #0771aa;
+    background: #ffffff;
     cursor: pointer;
 }
 
@@ -157,35 +163,34 @@ input[type=range]::-ms-track {
 }
 
 input[type=range]::-ms-fill-lower {
-    background: #5ac6e6;
+    background: #1f496d;
     border: 0.2px solid #010101;
     border-radius: 2.6px;
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
 }
 
 input[type=range]::-ms-fill-upper {
-    background: #79d1eb;
+    background: #3071a9;
     border: 0.2px solid #010101;
     border-radius: 2.6px;
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
 }
 
 input[type=range]::-ms-thumb {
-    box-shadow: 0px 0px 2px #000000, 0px 0px 0px #0d0d0d;
-    border: 1px solid #000000;
-    height: 24px;
-    width: 10px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1.1px solid #000000;
+    width: 16px;
     border-radius: 0px;
-    background: #0771aa;
+    background: #ffffff;
     cursor: pointer;
     height: 20px;
 }
 
 input[type=range]:focus::-ms-fill-lower {
-    background: #79d1eb;
+    background: #3071a9;
 }
 
 input[type=range]:focus::-ms-fill-upper {
-    background: #98dcf0;
+    background: #5697cf;
 }
 </style>
