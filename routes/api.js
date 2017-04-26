@@ -8,16 +8,16 @@ let User = require('../models/user');
 
 // test API
 //router.get('/test', ensureAuthenticated, function(req, res) {
-router.get('/test', function(req, res) {
-    User.getStocksAndPercent('bob', (err, user) => {
-        if (err) throw err;
-        res.json(user);
-    })
+// router.get('/test', function(req, res) {
+//     User.getStocksAndPercent('bob', (err, user) => {
+//         if (err) throw err;
+//         res.json(user);
+//     })
 
-    //res.json({ message: 'hooray! welcome to our api!' });   
-});
+//     //res.json({ message: 'hooray! welcome to our api!' });   
+// });
 
-router.post('/addstocks', function(req, res){
+router.post('/addstocks', ensureAuthenticated, function(req, res){
     var username = req.user.username;
     var stock = req.body.stock;
         
@@ -27,7 +27,7 @@ router.post('/addstocks', function(req, res){
     })
 })
 
-router.get('/getStocksAndPercent', function(req, res) {
+router.get('/getStocksAndPercent', ensureAuthenticated, function(req, res) {
     var username = req.user.username;
 
     User.getStocksAndPercent(username, (err, user) => {
@@ -36,7 +36,7 @@ router.get('/getStocksAndPercent', function(req, res) {
     });
 });
 
-router.get('/getStocks', function(req, res) {
+router.get('/getStocks', ensureAuthenticated, function(req, res) {
     var username = req.user.username;
 
     User.getStocks(username, (err, user) => {
@@ -53,15 +53,21 @@ router.get('/isLoggedIn', function(req, res) {
     }
 });
 
-router.put('/updateAlloc', function(req, res){
-    User.updateAlloc(req.user.username, req.body.stock, (err, user) =>
+router.post('/updateAlloc', ensureAuthenticated, function(req, res){
+    //To use updateAlloc, must have post coming as shown below portfolio with array of symbol and value
+    //var username = "bob"; req.user.username is good, just be sure with the portfolio
+    //var portfolio = {"portfolio": [{ "percent" :10, "symbol":"GOOG"}, {"percent":20,"symbol":"AAPL"}]};
+    User.updateAlloc(req.user.username, req.body.portfolio, (err, user) =>
     {
         if (err) throw err;
         res.status(200).send();
     })
 });
 
-router.delete('/deleteStock', function(req, res){
+router.delete('/deleteStock', ensureAuthenticated, function(req, res){
+    //var username = "bob";
+    //var stock = "AAPL"; Just need the stock, the req has the username
+
     User.deleteStock(req.user.username, req.body.stock, (err, user) =>
     {
         if (err) throw err;
