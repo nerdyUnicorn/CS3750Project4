@@ -87,6 +87,7 @@ table {
 table tbody {
     max-height: 50vh;
     overflow-y: scroll;
+    display: block;
 }
 
 td {
