@@ -43,6 +43,9 @@ export default new Vuex.Store({
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
+        },
+        loadStocks(state, dBStocks) {
+            state.allocations.push(dBStocks);
         }
     },
     // async modificaiton of global state
@@ -61,10 +64,15 @@ export default new Vuex.Store({
             .then(data => {
                 if (data.status) {
                     commit('setisLoggedIn', true);
+                    Vue.http.get('http://localhost:3000/api/getStocksAndPercent')
+                    //.then(response => response.json())
+                    .then(commit('loadStocks', response.json()))
+                                   
                 } else {
                     commit('setisLoggedIn', false);
                 }
             });
+            
         }
     },
     getters: {
