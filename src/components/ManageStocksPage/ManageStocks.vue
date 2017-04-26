@@ -20,7 +20,7 @@
                     </template>
                 </tbody>
             </table>
-            <button class="btn submit-port-button" v-bind:class="{'btn-info': !savingPort, 'btn-warning': savingPort}" v-on:click="submitPortfolio()">Save</button>
+            <button class="btn submit-port-button" v-bind:disabled="savingPort" v-bind:class="{'btn-info': !savingPort, 'btn-warning': savingPort}" v-on:click="submitPortfolio()">{{saveText}}</button>
         </div>
     </div>
 </template>
@@ -35,7 +35,8 @@ export default {
                 width: () => 60 + '%',
                 height: '100%'
             },
-            savingPort: false
+            savingPort: false,
+            saveText: 'Save'
         }
     },
     methods: {
@@ -55,9 +56,11 @@ export default {
         },
         submitPortfolio: function() {
             this.$data.savingPort = true;
+            this.$data.saveText = 'Saving...';
             this.$http.post('/api/updateAlloc', {portfolio: this.$store.getters.allocations})
             .then(data => {
                 this.$data.savingPort = false;
+                this.$data.saveText = 'Save';
             });
             return;
         }
