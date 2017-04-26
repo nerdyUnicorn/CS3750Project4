@@ -60,6 +60,7 @@ export default {
 <style scoped>
 #stockWindow {
     color: #000;
+    width: 70%;
 }
 
 input.stock-num-box {
@@ -93,6 +94,7 @@ tr {
 }
 
 div#remainingPercentOuter {
+    background: #000;
     border: solid 1px #000;
     height: 30px;
 }
