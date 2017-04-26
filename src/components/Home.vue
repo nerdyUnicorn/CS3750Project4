@@ -1,10 +1,7 @@
 <template>
     <div>
-        <h1>Trade or View your Stock Portfolio</h1>
-        <h6>You may Save & Load your Data</h6>
-        <h6>Click on 'End Day' to begin a New Day!</h6>
         <hr>
-        <p>Your Funds: {{ funds | currency }}</p>
+        <h1>Stock Ticker</h1>
         <hr>
         <br>
         <br>
@@ -15,11 +12,12 @@
         <h6>Dax Kelson</h6>
         <h6>Justin Messenger</h6>
         <h6>Nelson Muhlestein</h6>
+        <hr>
     </div>
 </template>
 
 
-<script>
+<!--<script>
    export default {
        computed: {
            funds() {
@@ -28,4 +26,4 @@
            }
        }
    } 
-</script>
+</script>-->

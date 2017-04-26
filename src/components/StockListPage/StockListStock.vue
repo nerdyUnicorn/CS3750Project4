@@ -39,7 +39,7 @@
                 trendEq: true,
                 name: this.stock.name,
                 change: this.stock.change,
-                currprice: this.stock.currprise,
+                currprice: this.stock.currprice,
             }
         },
         methods: {
