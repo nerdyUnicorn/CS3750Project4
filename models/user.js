@@ -71,13 +71,16 @@ module.exports.getStocks = function (username, callback) {
     User.find( {username: username}, '-id portfolio.symbol', callback);
 };
 
-module.exports.updateAlloc = function (username, stock, callback){
-    // User.update({username: username}, {'$set': {
-    //     'portfolio.$.': 'updated item2',
-    //     'items.$.value': 'two updated'}
-    // }) still working on the update allocation
+module.exports.updateAlloc = function (username, portfolio, callback){
+     var loop = portfolio.portfolio;
+
+     loop.forEach(function(obj) {
+        User.update({username: username, 'portfolio.symbol': obj.symbol}, {'$set': {
+            'portfolio.$.percent': obj.percent}
+        }, callback);
+     }); 
 };
 
 module.exports.deleteStock = function (username, stock, callback) {
-    // User.update( { username: username}, { $pull: {portfolio: {stock: stock} } }, { safe: true}, callback );
+     User.collection.update( { username: username}, { $pull: {portfolio: {symbol: stock} } }, { safe: true }, callback );
 };
