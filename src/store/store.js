@@ -56,7 +56,7 @@ export default new Vuex.Store({
             commit('mdelStock', stock);
         },
         checkLoggedIn: ({commit}) => {
-            Vue.http.get('http://localhost:3000/api/isLoggedIn')
+            Vue.http.get('/api/isLoggedIn')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {

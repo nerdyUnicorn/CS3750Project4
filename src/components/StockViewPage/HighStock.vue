@@ -40,7 +40,7 @@
         },
         methods: {
             getStockData() {
-            this.$http.get('http://localhost:3000/proxyapi/stockhistory/' + this.stock)
+            this.$http.get('/proxyapi/stockhistory/' + this.stock)
                 .then(response => response.json())
                 .then(data => {
                     if (data) {
