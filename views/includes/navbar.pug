@@ -1,17 +1,18 @@
 nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      a.navbar-brand(href='#') Project 4 Stock Ticker
+      a.navbar-brand(href='/') Project 4 Stock Ticker
     .collapse.navbar-collapse
       ul.nav.navbar-nav
-        li
-          a(href='/stocklist') Stock List
-        li
-          a(href='/addstocks') Add Stocks
-        li
-          a(href='/managestocks') Money Management
-        li
-          a(href='/stockview') Stock View
+        if isLoggedIn
+          li
+            a(href='/stocklist') Stock List
+          li
+            a(href='/addstocks') Add Stocks
+          li
+            a(href='/managestocks') Money Management
+          li
+            a(href='/stockview') Stock View
       ul.nav.navbar-nav.navbar-right
         if isLoggedIn
           li
