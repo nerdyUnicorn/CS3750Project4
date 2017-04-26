@@ -8,6 +8,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "object.entries": "*",
+    "isomorphic-fetch": "*",
     "bcryptjs": "*",
     "body-parser": "~1.16.0",
     "bootstrap": "^3.3.7",
