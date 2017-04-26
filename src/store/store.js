@@ -8,6 +8,7 @@ export default new Vuex.Store({
 
     // global state available throughout application
     state: {
+        isLoggedIn: false,
         allocations: [],
         funds: 10000
     },
@@ -39,6 +40,9 @@ export default new Vuex.Store({
 
             // TODO
             // remove stock from stocks and allocations
+        },
+        setisLoggedIn(state, status) {
+            state.isLoggedIn = status;
         }
     },
     // async modificaiton of global state
@@ -51,6 +55,17 @@ export default new Vuex.Store({
             console.log('delStock called on: ' + stock);
             commit('mdelStock', stock);
         },
+        checkLoggedIn: ({commit}) => {
+            Vue.http.get('http://localhost:3000/api/isLoggedIn')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    commit('setisLoggedIn', true);
+                } else {
+                    commit('setisLoggedIn', false);
+                }
+            });
+        }
     },
     getters: {
         allocations(state) { // using old style javascript syntax
@@ -65,6 +80,9 @@ export default new Vuex.Store({
                 stocks.push(state.allocations[i].symbol);
             }
             return stocks;
+        },
+        loginStatus: state => { // using new style javascript syntax
+            return state.isLoggedIn;
         }
     }
 });

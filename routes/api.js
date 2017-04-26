@@ -47,7 +47,7 @@ router.get('/getStocks', ensureAuthenticated, function(req, res) {
 
 router.get('/isLoggedIn', function(req, res) {
     if (req.user) { 
-    	res.json({ status: true}) 
+        res.json({status: true})
     } else { 
         res.json({status: false})
     }
