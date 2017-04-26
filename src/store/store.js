@@ -57,7 +57,7 @@ export default new Vuex.Store({
         },
         checkLoggedIn: ({commit}) => {
             Vue.http.get('http://localhost:3000/api/isLoggedIn')
-            .then(reponse => reponse.json())
+            .then(response => response.json())
             .then(data => {
                 if (data.status) {
                     commit('setisLoggedIn', true);
