@@ -33,13 +33,15 @@ export default new Vuex.Store({
         },
         mdelStock(state, stock) {
 
-            // return if stock is not already in state.stocks
-            if (state.stocks.indexOf(stock) == -1) {
-                return;
+            // return if stock is not already being tracked
+            for (let i in state.allocations) {
+                if (state.allocations[i].symbol == stock) {
+                    return;
+                }
             }
 
             // TODO
-            // remove stock from stocks and allocations
+            // remove stock from  allocations
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
