@@ -70,3 +70,14 @@ module.exports.getStocksAndPercent = function (username, callback){
 module.exports.getStocks = function (username, callback) {
     User.find( {username: username}, '-id portfolio.symbol', callback);
 };
+
+module.exports.updateAlloc = function (username, stock, callback){
+    // User.update({username: username}, {'$set': {
+    //     'portfolio.$.': 'updated item2',
+    //     'items.$.value': 'two updated'}
+    // }) still working on the update allocation
+};
+
+module.exports.deleteStock = function (username, stock, callback) {
+    // User.update( { username: username}, { $pull: {portfolio: {stock: stock} } }, { safe: true}, callback );
+};
