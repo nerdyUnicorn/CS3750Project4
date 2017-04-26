@@ -45,4 +45,28 @@ router.get('/getStocks', function(req, res) {
     })
 })
 
+router.get('/isLoggedIn', function(req, res) {
+    if (req.user) { 
+    	res.json({ status: true}) 
+    } else { 
+        res.json({status: false})
+    }
+});
+
+router.put('/updateAlloc', function(req, res){
+    User.updateAlloc(req.user.username, req.body.stock, (err, user) =>
+    {
+        if (err) throw err;
+        res.status(200).send();
+    })
+});
+
+router.delete('/deleteStock', function(req, res){
+    User.deleteStock(req.user.username, req.body.stock, (err, user) =>
+    {
+        if (err) throw err;
+        res.status(200).send();
+    })
+});
+
 module.exports = router;
