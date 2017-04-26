@@ -20,6 +20,7 @@
                     </template>
                 </tbody>
             </table>
+            <button class="btn submit-port-button" v-bind:class="{'btn-info': !savingPort, 'btn-warning': savingPort}" v-on:click="submitPortfolio()">Save</button>
         </div>
     </div>
 </template>
@@ -33,7 +34,8 @@ export default {
                 backgroundColor: '#033c73',
                 width: () => 60 + '%',
                 height: '100%'
-            }
+            },
+            savingPort: false
         }
     },
     methods: {
@@ -50,6 +52,14 @@ export default {
                 stockTotal = 100;
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
+        },
+        submitPortfolio: function() {
+            this.$data.savingPort = true;
+            this.$http.post('/api/updateAlloc', {portfolio: this.$store.getters.allocations})
+            .then(data => {
+                this.$data.savingPort = false;
+            });
+            return;
         }
     },
     components: {
@@ -97,6 +107,10 @@ div#remainingPercentOuter {
     background: #000;
     border: solid 1px #000;
     height: 30px;
+}
+
+.submit-port-button {
+    margin-top: 20px;
 }
 
 input[type=range] {
