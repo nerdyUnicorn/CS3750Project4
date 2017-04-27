@@ -48,7 +48,7 @@ export default new Vuex.Store({
         },
 
         loadStocks(state, dBStocks) {
-            state.allocations.push(dBStocks);},
+            state.allocations = dBStocks;},
 
         msetFunds(state, amt) {
             state.funds = amt;
