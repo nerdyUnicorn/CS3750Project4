@@ -8,6 +8,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "object.entries": "*",
+    "isomorphic-fetch": "*",
     "bcryptjs": "*",
     "body-parser": "~1.16.0",
     "bootstrap": "^3.3.7",
@@ -23,8 +25,10 @@
     "express-session": "*",
     "express-validator": "*",
     "highcharts": "^5.0.10",
+    "isomorphic-fetch": "^2.2.1",
     "mongoose": "^4.8.1",
     "morgan": "~1.7.0",
+    "object.entries": "^1.0.4",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",

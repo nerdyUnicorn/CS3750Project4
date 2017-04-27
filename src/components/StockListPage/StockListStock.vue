@@ -50,7 +50,7 @@
                 this.getStockData(true);
             },
             getStockData(norefresh) {
-            this.$http.get('http://localhost:3000/proxyapi/stock/' + this.stock.symbol)
+            this.$http.get('/proxyapi/stock/' + this.stock.symbol)
                 .then(response => response.json())
                 .then(data => {
                     if (data) {

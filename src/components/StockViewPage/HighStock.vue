@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-sm-6 col-md-6">
+        <div class="col-xs-6">
             <div class="panel well">
                 <highstock :options="options"></highstock>
             </div>
@@ -40,7 +40,7 @@
         },
         methods: {
             getStockData() {
-            this.$http.get('http://localhost:3000/proxyapi/stockhistory/' + this.stock)
+            this.$http.get('/proxyapi/stockhistory/' + this.stock)
                 .then(response => response.json())
                 .then(data => {
                     if (data) {

@@ -17,7 +17,7 @@ let User = require('../models/user');
 //     //res.json({ message: 'hooray! welcome to our api!' });   
 // });
 
-router.post('/addstocks', ensureAuthenticated, function(req, res){
+router.post('/addstocks', ensureAuthenticated, function(req, res, next){
     var username = req.user.username;
     var stock = req.body.stock;
         
@@ -32,6 +32,7 @@ router.get('/getStocksAndPercent', ensureAuthenticated, function(req, res) {
 
     User.getStocksAndPercent(username, (err, user) => {
         if (err) throw err;
+        //console.log(user);
         res.json(user);
     });
 });
@@ -55,8 +56,8 @@ router.get('/isLoggedIn', function(req, res) {
 
 router.post('/updateAlloc', ensureAuthenticated, function(req, res){
     //To use updateAlloc, must have post coming as shown below portfolio with array of symbol and value
-    //var username = "bob"; req.user.username is good, just be sure with the portfolio
-    //var portfolio = {"portfolio": [{ "percent" :10, "symbol":"GOOG"}, {"percent":20,"symbol":"AAPL"}]};
+    var username = req.user.username //is good, just be sure with the portfolio
+    //var portfolio = {"portfolio": */[{ "percent" :90, "symbol":"GOOG"}, {"percent":20,"symbol":"AAPL"}];//};
     User.updateAlloc(req.user.username, req.body.portfolio, (err, user) =>
     {
         if (err) throw err;
