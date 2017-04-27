@@ -15,38 +15,15 @@ export const store = new Vuex.Store({
 
     // sync modificaiton of global state
     mutations: {
-        maddStock(state, stock) {
-
-            // return if stock is already being tracked
-            for (let i in state.allocations) {
-                if (state.allocations[i].symbol == stock) {
-                    return;
-                }
-            }
-
-            let newStock = {
-                symbol: stock,
-                percent: 0
-            }
-
-            state.allocations.push(newStock);
-        },
         mdelStock(state, stock) {
-
-            // return if stock is not already being tracked
-            for (let i in state.allocations) {
-                if (state.allocations[i].symbol == stock) {
-                    return;
-                }
-            }
-
-            // TODO
-            // remove stock from  allocations
+            state.allocations = state.allocations.filter((el) => {
+                return el.symbol !== stock;
+            });
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
         },
-        loadStocks(state, dBStocks) {
+        mloadStocks(state, dBStocks) {
             state.allocations = dBStocks;
         },
         msetFunds(state, amt) {
@@ -59,15 +36,20 @@ export const store = new Vuex.Store({
         addStock: ({commit}, symbol) => {
             Vue.http.post('/api/addstocks', {stock: symbol})
             .then(function(response) {
-                     console.log('success', response)},
+                    console.log('success', response);
+                    store.dispatch('loadStocks')},
                   function(response) {
                      console.log('error', response)}
-            );
-            commit('maddStock', symbol); // this should be replaced with loadStocksFromDB
+            )
+            
         },
-        delStock: ({commit}, stock) => {
-            console.log('delStock called on: ' + stock);
-            commit('mdelStock', stock);
+        delStock: ({commit}, symbol) => {
+            Vue.http.delete('/api/stock/' + symbol)
+            .then(function(response) {
+                     commit('mdelStock', symbol);},
+                  function(response) {
+                     console.log('error calling delete stock API for ', symbol)}
+            );
         },
         checkLoggedIn: ({commit}) => {
             Vue.http.get('/api/isLoggedIn')
@@ -75,23 +57,27 @@ export const store = new Vuex.Store({
             .then(data => {
                 if (data.status) {
                     commit('setisLoggedIn', true);
-                    Vue.http.get('http://localhost:3000/api/getStocksAndPercent')
-                    .then(stockResponse => stockResponse.json())
-                    .then(function(stockResponse) {
-                        if (stockResponse) {
-                            console.log(stockResponse);
-                            commit('loadStocks', stockResponse);
-                        } else {
-                            commit('loadStocks', [{"symbol": "Placeholder", "percent": 0}]);
-                        }
-                    })
-                                   
+                    store.dispatch('loadStocks');                                   
                 } else {
                     commit('setisLoggedIn', false);
                 }
 
             })
         },
+
+        loadStocks: ({commit}) => {
+            Vue.http.get('/api/getStocksAndPercent')
+            .then(stockResponse => stockResponse.json())
+            .then(function(stockResponse){
+                if(stockResponse) {
+                    commit('mloadStocks', stockResponse);
+                }
+                else{
+                    commit('mloadStocks', [{"symbol": "ERROR", "percent":0}]);
+                }
+            })
+        },
+
         setFunds: ({commit}, amt) => {
             commit('msetFunds', amt);
         }
