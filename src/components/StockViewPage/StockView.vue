@@ -1,11 +1,13 @@
 <template>
     <div>
+        <app-pie></app-pie>
         <app-chart v-for="stock in stocks" :stock="stock"></app-chart>
     </div>
 </template>
 
 <script>
 
+    import PieChart from '../ManageStocksPage/AllocPieChart.vue';
     import HighStock from './HighStock.vue';
 
     export default {
@@ -15,7 +17,8 @@
            },
         },
         components: {
-            appChart: HighStock
+            appChart: HighStock,
+            appPie: PieChart
         }
     }
 </script>
