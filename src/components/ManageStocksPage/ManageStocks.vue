@@ -2,6 +2,24 @@
     <div>
         <h3>Manage Stocks</h3>
         <div id="stockWindow">
+            <h4>Funds in Account</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">$</span>
+                                <input type="number"
+                                       min="0"
+                                       v-model.number="funds"
+                                       v-on:change="updateFunds"
+                                       class="form-control"
+                                       aria-label="Amount (to the nearest dollar)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <hr>
             <div id="remainingPercentOuter">
                 <div id="remainingPercentInner" v-bind:style="barStyle"></div>
             </div>
@@ -11,10 +29,10 @@
                         <tr>
                             <td class="symbol-container">{{item.symbol}}</td>
                             <td class="slider-container">
-                                <input type="range" class="stock-alloc" v-model="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
+                                <input type="range" class="stock-alloc" v-model.number="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
                             </td>
                             <td class="number-container">
-                                <input type="number" class="stock-num-box" v-model="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
+                                <input type="number" class="stock-num-box" :disabled="item.percent > 100" v-model.number="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
                             </td>
                         </tr>
                     </template>
@@ -33,11 +51,15 @@ export default {
                 backgroundColor: '#033c73',
                 width: () => 60 + '%',
                 height: '100%'
-            }
+            },
+            funds: 0
         }
     },
     methods: {
         limitRange: function (event, item) {
+            if (item.percent > 100) {
+                item.percent = 100;
+            }
             var stocks = document.getElementsByClassName('stock-alloc');
             var stockTotal = 0;
             [].forEach.call(stocks, function (st) {
@@ -50,7 +72,13 @@ export default {
                 stockTotal = 100;
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
-        }
+        },
+        updateFunds() {
+                this.$store.dispatch('setFunds', this.funds);
+        },
+    },
+    created() {
+        this.funds = this.$store.getters.funds;
     },
     components: {
     }

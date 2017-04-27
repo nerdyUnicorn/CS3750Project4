@@ -45,6 +45,9 @@ export default new Vuex.Store({
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
+        },
+        msetFunds(state, amt) {
+            state.funds = amt;
         }
     },
     // async modificaiton of global state
@@ -67,6 +70,9 @@ export default new Vuex.Store({
                     commit('setisLoggedIn', false);
                 }
             });
+        },
+        setFunds: ({commit}, amt) => {
+                commit('msetFunds', amt);
         }
     },
     getters: {
