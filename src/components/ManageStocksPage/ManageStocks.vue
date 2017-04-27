@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Manage Stocks</h3>
+        <h3>Manage Total Funds and Allocation Percentages</h3>
         <div id="stockWindow">
             <h4>Funds in Account</h4>
             <div class="container">
@@ -20,6 +20,7 @@
             </div>
             <br>
             <hr>
+            <h4>Allocate Funds</h4>
             <div id="remainingPercentOuter">
                 <div id="remainingPercentInner" v-bind:style="barStyle"></div>
             </div>
