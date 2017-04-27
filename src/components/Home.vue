@@ -4,7 +4,7 @@
         <h1>Stock Ticker</h1>
         <hr>
         <li>
-        <h5>This sight allows you to make a customized list of stocks to follow. </h5> 
+        <h5>This site allows you to make a customized list of stocks to follow. </h5> 
         </li>
         <li>
         <h5>You can view the increase/decrease of your stock list over a specified period of time.</h5>
