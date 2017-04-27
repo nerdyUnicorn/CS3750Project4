@@ -33,19 +33,26 @@ export default new Vuex.Store({
         },
         mdelStock(state, stock) {
 
-            // return if stock is not already in state.stocks
-            if (state.stocks.indexOf(stock) == -1) {
-                return;
+            // return if stock is not already being tracked
+            for (let i in state.allocations) {
+                if (state.allocations[i].symbol == stock) {
+                    return;
+                }
             }
 
             // TODO
-            // remove stock from stocks and allocations
+            // remove stock from  allocations
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
         },
+
         loadStocks(state, dBStocks) {
-            state.allocations.push(dBStocks);
+            state.allocations.push(dBStocks);},
+
+        msetFunds(state, amt) {
+            state.funds = amt;
+
         }
     },
     // async modificaiton of global state
@@ -59,7 +66,7 @@ export default new Vuex.Store({
             commit('mdelStock', stock);
         },
         checkLoggedIn: ({commit}) => {
-            Vue.http.get('http://localhost:3000/api/isLoggedIn')
+            Vue.http.get('/api/isLoggedIn')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -79,8 +86,11 @@ export default new Vuex.Store({
                 } else {
                     commit('setisLoggedIn', false);
                 }
-            });
-            
+
+        })
+    },
+        setFunds: ({commit}, amt) => {
+                commit('msetFunds', amt);
         }
     },
     getters: {
