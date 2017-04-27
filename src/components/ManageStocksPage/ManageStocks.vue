@@ -32,6 +32,7 @@
                             <td class="slider-container">
                                 <input type="range" class="stock-alloc" v-model.number="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
                             </td>
+                            <td class="number-money">{{parseFloat((item.percent * funds / 100).toFixed(2)) | currency}}</td>
                             <td class="number-container">
                                 <input type="number" class="stock-num-box" :disabled="item.percent > 100" v-model.number="item.percent" min="0" max="100" v-on:change="limitRange($event, item)" v-on:input="limitRange($event, item)" />
                             </td>
