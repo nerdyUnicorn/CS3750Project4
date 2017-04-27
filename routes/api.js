@@ -32,6 +32,7 @@ router.get('/getStocksAndPercent', ensureAuthenticated, function(req, res) {
 
     User.getStocksAndPercent(username, (err, user) => {
         if (err) throw err;
+        //console.log(user);
         res.json(user);
     });
 });

@@ -65,8 +65,16 @@ export default new Vuex.Store({
                 if (data.status) {
                     commit('setisLoggedIn', true);
                     Vue.http.get('http://localhost:3000/api/getStocksAndPercent')
-                    //.then(response => response.json())
-                    .then(commit('loadStocks', response.json()))
+                    .then(stockResponse => stockResponse.json())
+                    .then(function(stockResponse) {
+                        if (stockResponse) {
+                            console.log(stockResponse);
+                            commit('loadStocks', stockResponse);
+                        }
+                        else{
+                            commit('loadStocks', [{"symbol": "Placeholder", "percent": 0}]);
+                        }
+                    })
                                    
                 } else {
                     commit('setisLoggedIn', false);
