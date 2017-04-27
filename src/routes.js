@@ -12,6 +12,14 @@ function redirectIfNotLoggedIn(to, from, next) {
     next();
 }
 import Page404 from './components/Page404/page404.vue';
+import {store} from './store/store.js'
+
+function redirectIfNotLoggedIn(to, from, next) {
+    if(store.getters.loginStatus === false) {
+        next('/');
+    }
+    next();
+}
 
 
 export const routes = [
@@ -20,9 +28,5 @@ export const routes = [
     { path: '/addstocks', component: AddStock, beforeEnter: redirectIfNotLoggedIn },
     { path: '/managestocks', component: ManageStocks, beforeEnter: redirectIfNotLoggedIn },
     { path: '/stockview', component: StockView, beforeEnter: redirectIfNotLoggedIn },
-    { path: '/stocklist', component: StockList },
-    { path: '/addstocks', component: AddStock },
-    { path: '/managestocks', component: ManageStocks },
-    { path: '/stockview', component: StockView },
     { path: '*', component: Page404 }
 ];
