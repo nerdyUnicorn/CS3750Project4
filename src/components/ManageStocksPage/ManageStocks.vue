@@ -1,25 +1,20 @@
 <template>
     <div>
         <h3>Manage Total Funds and Allocation Percentages</h3>
-        <div id="stockWindow">
-            <h4>Funds in Account</h4>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">$</span>
-                                <input type="number"
-                                       min="0"
-                                       v-model.number="funds"
-                                       v-on:change="updateFunds"
-                                       class="form-control"
-                                       aria-label="Amount (to the nearest dollar)">
-                        </div>
+        <h4>Funds in Account</h4>
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" min="0" v-model.number="funds" v-on:change="updateFunds" class="form-control" aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
             </div>
-            <br>
-            <hr>
+        </div>
+        <br>
+        <hr>
+        <div id="stockWindow">
             <h4>Allocate Funds</h4>
             <div id="remainingPercentOuter">
                 <div id="remainingPercentInner" v-bind:style="barStyle"></div>
@@ -40,11 +35,17 @@
                     </template>
                 </tbody>
             </table>
+            <button class="btn submit-port-button" v-bind:disabled="savingPort" v-bind:class="{'btn-info': !savingPort, 'btn-warning': savingPort}" v-on:click="submitPortfolio()">{{saveText}}</button>
+        </div>
+        <div id="chartWindow">
+            <pie-chart ref="stockschart"></pie-chart>
         </div>
     </div>
 </template>
 
 <script>
+
+import PieChart from './AllocPieChart.vue';
 
 export default {
     data() {
@@ -54,7 +55,9 @@ export default {
                 width: () => 60 + '%',
                 height: '100%'
             },
-            funds: 0
+            funds: 0,
+            savingPort: false,
+            saveText: 'Save'
         }
     },
     methods: {
@@ -75,14 +78,26 @@ export default {
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
         },
-        updateFunds() {
-                this.$store.dispatch('setFunds', this.funds);
+        updateFunds: function () {
+            this.$store.dispatch('setFunds', this.funds);
         },
+        submitPortfolio: function () {
+            this.$data.savingPort = true;
+            this.$data.saveText = 'Saving...';
+            this.$http.post('/api/updateAlloc', { portfolio: this.$store.getters.allocations })
+                .then(data => {
+                    this.$data.savingPort = false;
+                    this.$data.saveText = 'Save';
+                });
+            return;
+        }
+    },
+    components: {
+        pieChart: PieChart
     },
     created() {
         this.funds = this.$store.getters.funds;
-    },
-    components: {
+        this.$refs.stockschart.setAlloc();
     }
 }
 </script>
@@ -90,7 +105,14 @@ export default {
 <style scoped>
 #stockWindow {
     color: #000;
-    width: 70%;
+    width: 50%;
+    float: left;
+}
+
+#chartWindow {
+    display: block;
+    width: 50%;
+    float: right;
 }
 
 input.stock-num-box {
@@ -104,6 +126,7 @@ table {
 table tbody {
     max-height: 50vh;
     overflow-y: scroll;
+    display: block;
 }
 
 td {
@@ -127,6 +150,10 @@ div#remainingPercentOuter {
     background: #000;
     border: solid 1px #000;
     height: 30px;
+}
+
+.submit-port-button {
+    margin-top: 20px;
 }
 
 input[type=range] {
