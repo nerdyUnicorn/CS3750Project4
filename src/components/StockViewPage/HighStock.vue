@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-sm-6 col-md-6">
+        <div class="col-xs-6">
             <div class="panel well">
                 <highstock :options="options"></highstock>
             </div>

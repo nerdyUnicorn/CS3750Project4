@@ -64,7 +64,10 @@ module.exports.addStock = function (username, stock, callback){
 };
 
 module.exports.getStocksAndPercent = function (username, callback){
-    User.find({username: username}, '-_id portfolio.symbol portfolio.percent', callback);
+    User.find({username: username})
+    .distinct("portfolio", {portfolio : {$exists : true}}, callback);
+    //User.find({username: username}, '-_id portfolio.symbol portfolio.percent', callback);
+
 };
 
 module.exports.getStocks = function (username, callback) {
@@ -72,7 +75,8 @@ module.exports.getStocks = function (username, callback) {
 };
 
 module.exports.updateAlloc = function (username, portfolio, callback){
-     var loop = portfolio.portfolio;
+     var loop = portfolio;
+     console.log(loop);
 
      loop.forEach(function(obj) {
         User.update({username: username, 'portfolio.symbol': obj.symbol}, {'$set': {

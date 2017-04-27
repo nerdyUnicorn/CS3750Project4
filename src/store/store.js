@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
 
     // global state available throughout application
     state: {
@@ -46,6 +46,9 @@ export default new Vuex.Store({
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
         },
+        loadStocks(state, dBStocks) {
+            state.allocations = dBStocks;
+        },
         msetFunds(state, amt) {
             state.funds = amt;
         }
@@ -53,8 +56,14 @@ export default new Vuex.Store({
     // async modificaiton of global state
     actions: {
         // stock = stock symbol
-        addStock: ({commit}, stock) => {
-            commit('maddStock', stock);
+        addStock: ({commit}, symbol) => {
+            Vue.http.post('/api/addstocks', {stock: symbol})
+            .then(function(response) {
+                     console.log('success', response)},
+                  function(response) {
+                     console.log('error', response)}
+            );
+            commit('maddStock', symbol); // this should be replaced with loadStocksFromDB
         },
         delStock: ({commit}, stock) => {
             console.log('delStock called on: ' + stock);
@@ -66,13 +75,25 @@ export default new Vuex.Store({
             .then(data => {
                 if (data.status) {
                     commit('setisLoggedIn', true);
+                    Vue.http.get('http://localhost:3000/api/getStocksAndPercent')
+                    .then(stockResponse => stockResponse.json())
+                    .then(function(stockResponse) {
+                        if (stockResponse) {
+                            console.log(stockResponse);
+                            commit('loadStocks', stockResponse);
+                        } else {
+                            commit('loadStocks', [{"symbol": "Placeholder", "percent": 0}]);
+                        }
+                    })
+                                   
                 } else {
                     commit('setisLoggedIn', false);
                 }
-            });
+
+            })
         },
         setFunds: ({commit}, amt) => {
-                commit('msetFunds', amt);
+            commit('msetFunds', amt);
         }
     },
     getters: {
