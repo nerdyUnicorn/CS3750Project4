@@ -22,10 +22,15 @@
             </table>
             <button class="btn submit-port-button" v-bind:disabled="savingPort" v-bind:class="{'btn-info': !savingPort, 'btn-warning': savingPort}" v-on:click="submitPortfolio()">{{saveText}}</button>
         </div>
+        <div id="chartWindow">
+            <pie-chart ref="stockschart" :remaining="this.$data.barStyle.width"></pie-chart>
+        </div>
     </div>
 </template>
 
 <script>
+
+import PieChart from './AllocPieChart.vue';
 
 export default {
     data() {
@@ -53,27 +58,37 @@ export default {
                 stockTotal = 100;
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
+            this.$refs.stockschart.setAlloc();
         },
-        submitPortfolio: function() {
+        submitPortfolio: function () {
             this.$data.savingPort = true;
             this.$data.saveText = 'Saving...';
-            this.$http.post('/api/updateAlloc', {portfolio: this.$store.getters.allocations})
-            .then(data => {
-                this.$data.savingPort = false;
-                this.$data.saveText = 'Save';
-            });
+            this.$http.post('/api/updateAlloc', { portfolio: this.$store.getters.allocations })
+                .then(data => {
+                    this.$data.savingPort = false;
+                    this.$data.saveText = 'Save';
+                });
             return;
         }
     },
     components: {
+        pieChart: PieChart
     }
 }
 </script>
 
 <style scoped>
+
 #stockWindow {
     color: #000;
-    width: 70%;
+    width: 50%;
+    float: left;
+}
+
+#chartWindow {
+    display: block;
+    width: 50%;
+    float: right;
 }
 
 input.stock-num-box {
