@@ -1,19 +1,6 @@
-
 <template>
     <div>
-        <hr>
-        <h1>Page 404</h1>
-        <hr>
-        <br>
-        <br>
-        <br>
-        <h4>CREATED BY: </h4>
-        <h6>Jennifer Crouch</h6>
-        <h6>Zachary Fullmer</h6>
-        <h6>Dax Kelson</h6>
-        <h6>Justin Messenger</h6>
-        <h6>Nelson Muhlestein</h6>
-        <hr>
+        <img src="404.png">
     </div>
 </template>
 

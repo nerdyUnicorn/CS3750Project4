@@ -12,9 +12,6 @@
         <h6>Dax Kelson</h6>
         <h6>Justin Messenger</h6>
         <h6>Nelson Muhlestein</h6>
-        <br>
-        <br>
-        <li><a href="/users/Page404">Page404</a></li>
         <hr>
     </div>
 </template>
