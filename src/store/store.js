@@ -58,8 +58,14 @@ export default new Vuex.Store({
     // async modificaiton of global state
     actions: {
         // stock = stock symbol
-        addStock: ({commit}, stock) => {
-            commit('maddStock', stock);
+        addStock: ({commit}, symbol) => {
+            Vue.http.post('/api/addstocks', {stock: symbol})
+            .then(function(response) {
+                     console.log('success', response)},
+                  function(response) {
+                     console.log('error', response)}
+            );
+            commit('maddStock', symbol); // this should be replaced with loadStocksFromDB
         },
         delStock: ({commit}, stock) => {
             console.log('delStock called on: ' + stock);
