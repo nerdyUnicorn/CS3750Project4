@@ -22,8 +22,8 @@ export default {
                     plotShadow: false,
                     type: 'pie'
                 },
-                colors: ['#21b6a8','#b6212d','#b67721','#9be1fb','#006295','#f37338','#fdb632',
-                '#801638','#b0e57c','#ffaeae','#7a3e48','#666633','#266a2e','#34dddd'],
+                colors: ['#21b6a8', '#b6212d', '#b67721', '#9be1fb', '#006295', '#f37338', '#fdb632',
+                    '#801638', '#b0e57c', '#ffaeae', '#7a3e48', '#666633', '#266a2e', '#34dddd'],
                 title: {
                     text: 'Stocks'
                 },
@@ -77,10 +77,12 @@ export default {
                 y: 100.0 - totalAlloc,
                 color: '#111'
             });
+            console.log(this.$refs);
+            console.log(this.$refs['pie']);
             this.$refs.pie.chart.series[0].setData(data, true, false);
         }
     },
-    created() {
+    mounted() {
         this.setAlloc();
     }
 }
