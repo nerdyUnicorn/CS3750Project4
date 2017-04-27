@@ -1,6 +1,8 @@
 <template>
     <div>
-        <app-pie></app-pie>
+        <div class="col-xs-6">
+            <app-pie></app-pie>
+        </div>
         <app-chart v-for="stock in stocks" :stock="stock"></app-chart>
     </div>
 </template>
