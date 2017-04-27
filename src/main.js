@@ -5,7 +5,7 @@ import Toast from 'vue-easy-toast';
 
 import App from './App.vue'
 import { routes } from './routes';
-import store from './store/store';
+import { store } from './store/store';
 
 // Use HighStock
 import VueHighcharts from 'vue-highcharts';
