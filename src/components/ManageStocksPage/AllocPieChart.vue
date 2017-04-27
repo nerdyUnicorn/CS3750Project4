@@ -77,8 +77,6 @@ export default {
                 y: 100.0 - totalAlloc,
                 color: '#111'
             });
-            console.log(this.$refs);
-            console.log(this.$refs['pie']);
             this.$refs.pie.chart.series[0].setData(data, true, false);
         }
     },
