@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//const history = require('vue-history-api-fallback');
+var history = require('connect-history-api-fallback');
 //const historyOptions = require('./src/main.js');
 //var history = require('connect-history-api-fallback');
 const fallback = require('express-history-api-fallback');
@@ -19,6 +19,12 @@ var api = require('./routes/api');
 var proxyapi = require('./routes/proxyapi');
 
 var app = express();
+
+// var connect = require('connect');
+
+// var app = connect()
+//   .use(history())
+//   .listen(3000);
 
 
 // mongoose setup
