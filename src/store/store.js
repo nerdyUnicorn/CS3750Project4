@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
 
     // global state available throughout application
     state: {
@@ -46,13 +46,11 @@ export default new Vuex.Store({
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
         },
-
         loadStocks(state, dBStocks) {
-            state.allocations = dBStocks;},
-
+            state.allocations = dBStocks;
+        },
         msetFunds(state, amt) {
             state.funds = amt;
-
         }
     },
     // async modificaiton of global state
@@ -83,8 +81,7 @@ export default new Vuex.Store({
                         if (stockResponse) {
                             console.log(stockResponse);
                             commit('loadStocks', stockResponse);
-                        }
-                        else{
+                        } else {
                             commit('loadStocks', [{"symbol": "Placeholder", "percent": 0}]);
                         }
                     })
@@ -93,10 +90,10 @@ export default new Vuex.Store({
                     commit('setisLoggedIn', false);
                 }
 
-        })
-    },
+            })
+        },
         setFunds: ({commit}, amt) => {
-                commit('msetFunds', amt);
+            commit('msetFunds', amt);
         }
     },
     getters: {
