@@ -77,6 +77,7 @@ export default {
                 stockTotal = 100;
             }
             this.$data.barStyle.width = (100 - stockTotal) + '%';
+            this.$refs.stockschart.setAlloc();
         },
         updateFunds: function () {
             this.$store.dispatch('setFunds', this.funds);
@@ -95,9 +96,8 @@ export default {
     components: {
         pieChart: PieChart
     },
-    created() {
+    mounted() {
         this.funds = this.$store.getters.funds;
-        this.$refs.stockschart.setAlloc();
     }
 }
 </script>

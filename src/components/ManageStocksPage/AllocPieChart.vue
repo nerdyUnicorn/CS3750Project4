@@ -60,6 +60,7 @@ export default {
     },
     methods: {
         setAlloc() {
+            console.log(this.$store.getters.allocations);
             let data = [];
             let alloc = this.$store.getters.allocations;
             let totalAlloc = 0;
