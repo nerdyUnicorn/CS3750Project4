@@ -65,11 +65,8 @@ router.post('/updateAlloc', ensureAuthenticated, function(req, res){
     })
 });
 
-router.delete('/deleteStock', ensureAuthenticated, function(req, res){
-    //var username = "bob";
-    //var stock = "AAPL"; Just need the stock, the req has the username
-
-    User.deleteStock(req.user.username, req.body.stock, (err, user) =>
+router.delete('/stock/:symbol', ensureAuthenticated, function(req, res){
+    User.deleteStock(req.user.username, req.params.symbol, (err, user) =>
     {
         if (err) throw err;
         res.status(200).send();

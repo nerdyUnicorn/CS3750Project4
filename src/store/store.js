@@ -32,16 +32,9 @@ export const store = new Vuex.Store({
             state.allocations.push(newStock);
         },
         mdelStock(state, stock) {
-
-            // return if stock is not already being tracked
-            for (let i in state.allocations) {
-                if (state.allocations[i].symbol == stock) {
-                    return;
-                }
-            }
-
-            // TODO
-            // remove stock from  allocations
+            state.allocations = state.allocations.filter((el) => {
+                return el.symbol !== stock;
+            });
         },
         setisLoggedIn(state, status) {
             state.isLoggedIn = status;
@@ -65,9 +58,13 @@ export const store = new Vuex.Store({
             );
             commit('maddStock', symbol); // this should be replaced with loadStocksFromDB
         },
-        delStock: ({commit}, stock) => {
-            console.log('delStock called on: ' + stock);
-            commit('mdelStock', stock);
+        delStock: ({commit}, symbol) => {
+            Vue.http.delete('/api/stock/' + symbol)
+            .then(function(response) {
+                     commit('mdelStock', symbol);},
+                  function(response) {
+                     console.log('error calling delete stock API for ', symbol)}
+            );
         },
         checkLoggedIn: ({commit}) => {
             Vue.http.get('/api/isLoggedIn')
