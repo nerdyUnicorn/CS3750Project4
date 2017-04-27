@@ -21,7 +21,7 @@ router.get('/test', function(req, res) {
     res.json({ message: 'hooray! welcome to our proxy api!' });   
 });
 
-router.get('/stock/:stock_id', function(req, res, next) {
+router.get('/stock/:stock_id', ensureAuthenticated, function(req, res, next) {
 
    // setup the outbound header by using a modified version
    // of the incoming request headers 
@@ -75,7 +75,7 @@ router.get('/stock/:stock_id', function(req, res, next) {
     .catch(err => next(err));
 });
 
-router.get('/stockhistory/:stock_id', function(req, res, next) {
+router.get('/stockhistory/:stock_id', ensureAuthenticated, function(req, res, next) {
 
    // setup the outbound header by using a modified version
    // of the incoming request headers
