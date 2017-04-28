@@ -16,6 +16,7 @@ const MongoStore = require('connect-mongo')(session);
 
 var users = require('./routes/users');
 var api = require('./routes/api');
+var proxyapi = require('./routes/proxyapi');
 
 var app = express();
 
@@ -94,6 +95,7 @@ app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
+app.use('/proxyapi', proxyapi);
 app.use('/users', users);
 
 // setup HTML5 History Mode for SPAs
