@@ -21,8 +21,8 @@
                    tmpObj[i] = {
                        symbol: this.stocks[i],
                        name: '',
+                       currprice: 'Loading...',
                        change: '',
-                       LastPrice: ''
                    }
                }
                return tmpObj;
