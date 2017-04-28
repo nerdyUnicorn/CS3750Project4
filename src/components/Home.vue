@@ -3,16 +3,11 @@
         <hr>
         <h1>Stock Ticker</h1>
         <hr>
-        <li>
-        <h5>This site allows you to make a customized list of stocks to follow. </h5> 
-        </li>
-        <li>
-        <h5>You can view the increase/decrease of your stock list over a specified period of time.</h5>
-        </li>
-        <li>
-        <h5>It also permits money allocation to desired stocks with a slide bar and pie chart.</h5>
-        </li>
+        <h4>This site allows you to make a customized list of stocks to follow.</h4> 
+        <h4>You can view the current and historical performance of your tracked stocks.</h4>
+        <h4>You can also define what percentage of fundss is allocated to each stock.</h4>
         <hr>
+        <h4>Begin by registering for an account and then Adding Stocks</h4>
         <br>
         <br>
         <br>
